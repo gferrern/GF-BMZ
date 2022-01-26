@@ -3,7 +3,7 @@ import {
   REMOVE_ITEM,
   SUB_QUANTITY,
   ADD_QUANTITY,
-} from "../actions/action-types/cart-actions";
+} from "../actions/action-types/cartactions";
 const initState = {
   addedItems: [],
   total: 0,

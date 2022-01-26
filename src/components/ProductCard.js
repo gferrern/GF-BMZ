@@ -4,47 +4,31 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import ButtonBase from "@mui/material/ButtonBase";
 import { makeStyles } from "@material-ui/core/styles";
+import {getProductData} from "./actions/productActions";
 import { connect } from "react-redux";
 
-import * as cartActions from "./actions/cartActions";
+
 
 class ProductCard extends Component {
+
+  componentDidMount() {
+    this.props.dispatch(getProductData());
+  }
+
   constructor(props) {
     super(props);
-    const createHandlers = (dispatch) => {
-      let _addToCart = function (id) {
-        dispatch(cartActions.addToCart(id));
-      };
-      let _getProductData = function () {
-        dispatch(cartActions.getProductData());
-      };
-      let _search = function (filter) {
-        dispatch(cartActions.search(filter));
-      };
-      return {
-        _addToCart,
-        _getProductData,
-        _search,
-      };
-    };
-    this.handlers = createHandlers(props.dispatch);
     this.classes = makeStyles((theme) => ({
       root: {
         marginTop: 80,
       },
     }));
-    this.state = {
-      products: [],
-    };
   }
-  handleClick = (id) => {
-    this.handlers._addToCart(id);
-  };
-  componentDidMount() {
-    this.state.products = this.handlers._getProductData();
-}
+
+
   render() {
-    return this.state.products.map((product) => (
+    const { error, loading, products } = this.props;
+
+    return products.map((product) => (
       <Grid item xs={2} sm={3} md={3} key={product.id}>
         <Paper sx={{ p: 2, margin: "auto", maxWidth: 500, flexGrow: 1 }}>
           <Grid container spacing={2}>
@@ -95,4 +79,11 @@ class ProductCard extends Component {
     ));
   }
 }
-export default connect()(ProductCard);
+
+const mapStateToProps = state => ({
+  products: state.products.items,
+  loading: state.products.loading,
+  error: state.products.error
+});
+
+export default connect(mapStateToProps)(ProductCard);

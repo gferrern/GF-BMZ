@@ -1,5 +1,5 @@
 
-import { ADD_TO_CART,REMOVE_ITEM,SUB_QUANTITY,ADD_QUANTITY,GET_PRODUCT_DATA,INIT_PRODUCTS,SEARCH, ERROR_GENERATED} from './action-types/cart-actions'
+import { ADD_TO_CART,REMOVE_ITEM,SUB_QUANTITY,ADD_QUANTITY, SEARCH} from './action-types/cartactions'
 import Global from '../../Global';
 import axios from 'axios';
 
@@ -40,15 +40,6 @@ export const addQuantity=(id)=>{
     }
 }
 
-export const initProducts=(data)=>{
-    return{
-        type: INIT_PRODUCTS,
-        payload:{
-            data: data
-        }
-    }
-}
-
 export const search=(filter)=>{
     return{
         type: SEARCH,
@@ -58,23 +49,3 @@ export const search=(filter)=>{
     }
 }
 
-export const errorGenerated=(error)=>{
-    return{
-        type: ERROR_GENERATED,
-        payload: error
-    }
-}
-
-export const getProductData = ()=>{
-    return function(dispatch) {
-        axios.get(`${Global.baseURL}/product`)
-            .then(response => {
-                dispatch({
-                    type: GET_PRODUCT_DATA,
-                    payload:{
-                        data: response.data
-                    }
-                })
-            })
-    }
-}
