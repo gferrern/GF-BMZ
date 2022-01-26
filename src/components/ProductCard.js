@@ -4,31 +4,26 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import ButtonBase from "@mui/material/ButtonBase";
 import { makeStyles } from "@material-ui/core/styles";
-import {getProductData} from "./actions/productActions";
+import { getProductData,getProductsSuccess, getProductsFailure} from "./actions/productActions";
 import { connect } from "react-redux";
 
-
-
-class ProductCard extends Component {
-
-  componentDidMount() {
-    this.props.dispatch(getProductData());
-  }
-
+export class ProductCard extends Component {
+  state = {
+    products: [],
+    loading: {},
+    error: {}
+  };
   constructor(props) {
     super(props);
-    this.classes = makeStyles((theme) => ({
+    const classes = makeStyles((theme) => ({
       root: {
         marginTop: 80,
       },
     }));
   }
 
-
   render() {
-    const { error, loading, products } = this.props;
-
-    return products.map((product) => (
+    return this.state.products.map((product) => (
       <Grid item xs={2} sm={3} md={3} key={product.id}>
         <Paper sx={{ p: 2, margin: "auto", maxWidth: 500, flexGrow: 1 }}>
           <Grid container spacing={2}>
@@ -80,10 +75,11 @@ class ProductCard extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  products: state.products.items,
-  loading: state.products.loading,
-  error: state.products.error
-});
 
-export default connect(mapStateToProps)(ProductCard);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    state: () => dispatch(getProductData())
+  }
+}
+export const ProductCardConnect = connect(
+  mapDispatchToProps)(ProductCard);

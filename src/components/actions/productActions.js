@@ -28,7 +28,7 @@ export function getProductData() {
       .then((res) => res.json())
       .then((json) => {
         dispatch(getProductsSuccess(json));
-        return json.data;
+        return json;
       })
       .catch((error) => dispatch(getProductsFailure(error)));
   };

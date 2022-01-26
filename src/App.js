@@ -2,7 +2,7 @@ import { Outlet, Link } from "react-router-dom";
 
 import "./App.css";
 import Header from "./components/Header";
-import ProductCard from "./components/ProductCard";
+import {ProductCard, ProductCardConnect} from "./components/ProductCard";
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
 import Grid from "@mui/material/Grid";
